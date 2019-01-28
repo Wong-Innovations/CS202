@@ -2,13 +2,13 @@
 #include <fstream>
 #define LENGTH 10
 
-void printNames(char arr[][255], int pos[]);
-void logNames(std::ofstream& outFile, char arr[][255], int pos[]);
-void myStringCopy(char destination [], const char source []);
-void lenSort(char arr[][255], int pos[]);
 void alphabetize(char arr[][255], int pos[]);
-int myStringCompare(const char str1 [], const char str2 []); // Returns False if str2 is first alphabetically
+void lenSort(char arr[][255], int pos[]);
+void logNames(std::ofstream& outFile, char arr[][255], int pos[]);
+int myStringCompare(const char str1 [], const char str2 []);
+void myStringCopy(char destination [], const char source []);
 int myStringLength(const char str []);
+void printNames(char arr[][255], int pos[]);
 
 int main(void)
 {
@@ -61,6 +61,26 @@ int main(void)
     return 0;
 }
 
+void alphabetize(char arr[][255], int pos[])
+{
+	for (int i = 0; i < LENGTH; i++)
+    {
+        for (int j = 0; j < LENGTH - 1; j++)
+        {
+            if (myStringCompare(arr[j], arr[j+1]) == 1)
+            {
+                char temp[255];
+				int storage = pos[j+1];
+                myStringCopy(temp, arr[j+1]);
+                myStringCopy(arr[j+1], arr[j]);
+                myStringCopy(arr[j], temp);
+				pos[j+1] = pos[j];
+				pos[j] = storage;
+            }
+        }
+    }
+}
+
 void lenSort(char arr[][255], int pos[])
 {
     for (int i = 0; i < LENGTH; i++)
@@ -81,15 +101,14 @@ void lenSort(char arr[][255], int pos[])
     }
 }
 
-int myStringLength(const char str [])
+void logNames(std::ofstream& outFile, char name_list[][255], int pos[])
 {
-    int len = 0;
-    for (; str[len] != '\0'; len++) continue;
-
-    return len;
+    for (int i = 0; i < LENGTH; i++)
+    {
+        outFile << pos[i] << ' ' << name_list[i] << '\n';
+    }
 }
 
-// Returns False if str2 is first alphabetically
 int myStringCompare(const char str1 [], const char str2 [])
 {
 	for (int i = 0; (str1[i] != '\0') && (str2[i] != '\0'); i++)
@@ -117,62 +136,18 @@ void myStringCopy(char destination [], const char source [])
     destination[i] = '\0';
 }
 
+int myStringLength(const char str [])
+{
+    int len = 0;
+    for (; str[len] != '\0'; len++) continue;
+
+    return len;
+}
+
 void printNames(char name_list[][255], int pos[])
 {
     for (int i = 0; i < LENGTH; i++)
     {
         std::cout << pos[i] << ' ' << name_list[i] << std::endl;
     }
-}
-
-void logNames(std::ofstream& outFile, char name_list[][255], int pos[])
-{
-    for (int i = 0; i < LENGTH; i++)
-    {
-        outFile << pos[i] << ' ' << name_list[i] << '\n';
-    }
-}
-
-void alphabetize(char arr[][255], int pos[])
-{
-	for (int i = 0; i < LENGTH; i++)
-    {
-        for (int j = 0; j < LENGTH - 1; j++)
-        {
-            if (myStringCompare(arr[j], arr[j+1]) == 1)
-            {
-                char temp[255];
-				int storage = pos[j+1];
-                myStringCopy(temp, arr[j+1]);
-                myStringCopy(arr[j+1], arr[j]);
-                myStringCopy(arr[j], temp);
-				pos[j+1] = pos[j];
-				pos[j] = storage;
-            }
-        }
-    }
-}
-
-void quickAlphabetize(char arr[][255], int pos[], int last_index, int first_index)
-{
-    
-    int cnt = last_index;
-
-    for (int i = last_index; i <= first_index; i++)
-    {
-        if (myStringCompare(arr[i], arr[first_index]))
-        {
-            char temp[255];
-            int storage = pos[i+1];
-            myStringCopy(temp, arr[i+1]);
-            myStringCopy(arr[j+1], arr[j]);
-            myStringCopy(arr[j], temp);
-            pos[j+1] = pos[j];
-            pos[j] = storage;
-            cnt++;
-        }
-    }
-
-    quickAlphabetize(arr, l, cnt-2);
-    quickAlphabetize(arr, cnt, r);
 }
