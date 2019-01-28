@@ -16,17 +16,14 @@ int main(void)
     char name_list[LENGTH][255];
     int pos[LENGTH] = {0,1,2,3,4,5,6,7,8,9};
 
-    // User input
     std::cout << "Enter source file name: ";
     std::cin >> source_file_name;
     std::cout << "Enter destination file name: ";
     std::cin >> destination_file_name;
 
-    // open a file in read mode.
     std::ifstream source_file;
     source_file.open(source_file_name);
 
-    // open a file in write mode
     std::ofstream destination_file;
     destination_file.open(destination_file_name);
    
