@@ -142,10 +142,10 @@ void printNames(char name_list[][MAXSIZE], int pos[])
 void swapNames(char name_list[][MAXSIZE], int pos[], const int a, const int b)
 {
     char temp[MAXSIZE];
-	int storage = pos[b];
+    int storage = pos[b];
     myStringCopy(temp, name_list[b]);
     myStringCopy(name_list[b], name_list[a]);
     myStringCopy(name_list[a], temp);
-	pos[b] = pos[a];
-	pos[a] = storage;
+    pos[b] = pos[a];
+    pos[a] = storage;
 }
