@@ -53,7 +53,7 @@ void readFile(RentalCar* carsArray, const char* source_file_name);
 void sortByPrice(RentalCar* carsArray, int* positionArray);
 
 //
-void swapCars(RentalCar destination, RentalCar source);
+void swapCars(RentalCar* a, RentalCar* b);
 
 int main(void)
 {
@@ -209,23 +209,23 @@ void sortByPrice(RentalCar* carsArray, int* positionArray)
     {
         for (int j = 0; j < 5 - i - 1; j++)
         {
-            if (carsArray[i+1].price > carsArray[i].price)
+            if (carsArray[j+1].price > carsArray[j].price)
             {
-                int tempInt = positionArray[i+1];
-                positionArray[i+1] = positionArray[i];
-                positionArray[i] = tempInt;
+                int tempInt = positionArray[j+1];
+                positionArray[j+1] = positionArray[j];
+                positionArray[j] = tempInt;
 
-                RentalCar tempObj = carsArray[i+1];
-                carsArray[i+1] = carsArray[i];
-                carsArray[i] = tempObj;
+                swapCars(&carsArray[j+1], &carsArray[j]);
             }
         }
     }
-
     return;
 }
 
-void swapCars(RentalCar destination, RentalCar source)
+void swapCars(RentalCar* a, RentalCar* b)
 {
-    destination.price = source.price;
+    RentalCar tempObj = *a;
+    *a = *b;
+    *b = tempObj;
+    return;
 }
