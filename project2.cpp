@@ -18,8 +18,7 @@ struct RentalCar {
 // 
 void displayMenu();
 
-// 
-void readFile(RentalCar* carsArray, const char* source_file_name);
+void logCarData(RentalCar* carsArray, const int* position, const char* destination_file_name);
 
 // Function name: myStringLength
 // Pre-condition: str is a c-string pointer
@@ -45,21 +44,16 @@ char *myStringCopy(char* destination, const char* source);
 char *myStringCat(char* destination, const char* source);
 
 //
-void printCarData(RentalCar* carsArray);
+void printCarData(RentalCar* carsArray, const int* position);
+
+// 
+void readFile(RentalCar* carsArray, const char* source_file_name);
 
 int main(void)
 {
     RentalCar carsArray[5];
     char source_file_name[255], destination_file_name[255];
-    int selection;
-
-    std::cout << "Enter source file name: ";
-    std::cin >> source_file_name;
-    std::cout << "Enter destination file name: ";
-    std::cin >> destination_file_name;
-
-    std::ofstream destination_file;
-    destination_file.open(destination_file_name);
+    int selection, positionArray[5] = {0,1,2,3,4};
 
     do
     {
@@ -74,10 +68,12 @@ int main(void)
                 readFile(carsArray, source_file_name);
                 break;
             case 2:
-                printCarData(carsArray);
+                printCarData(carsArray, positionArray);
                 break;
             case 3:
-            
+                std::cout << "Destination filename: ";
+                std::cin >> destination_file_name;
+                logCarData(carsArray, positionArray, destination_file_name);
                 break;
             case 4:
             
@@ -109,6 +105,39 @@ void displayMenu()
     return;
 }
 
+void logCarData(RentalCar* carsArray, const int* position, const char* destination_file_name)
+{
+    std::ofstream destination_file;
+    destination_file.open(destination_file_name);
+
+    for(int i = 0; i < 5; i++)
+    {
+        destination_file
+        << '[' << position[i] << "] "
+        << carsArray[i].year << ' '
+        << carsArray[i].make << ' '
+        << carsArray[i].model << " , $"
+        << carsArray[i].price << " per day , Available: "
+        << std::boolalpha
+        << carsArray[i].available << "\n";
+    }
+}
+
+void printCarData(RentalCar* carsArray, const int* position)
+{
+    for(int i = 0; i < 5; i++)
+    {
+        std::cout 
+        << '[' << position[i] << "] "
+        << carsArray[i].year << ' '
+        << carsArray[i].make << ' '
+        << carsArray[i].model << " , $"
+        << carsArray[i].price << " per day , Available: "
+        << std::boolalpha
+        << carsArray[i].available << "\n";
+    }
+}
+
 void readFile(RentalCar* carsArray, const char* source_file_name)
 {
     std::ifstream source_file;
@@ -130,9 +159,4 @@ void readFile(RentalCar* carsArray, const char* source_file_name)
     }
     
     return;
-}
-
-void printCarData(RentalCar* carsArray)
-{
-
 }
