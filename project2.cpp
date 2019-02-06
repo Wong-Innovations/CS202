@@ -20,10 +20,10 @@ void displayMenu();
 
 void logCarData(RentalCar* carsArray, const int* position, const char* destination_file_name);
 
-// Function name: myStringLength
-// Pre-condition: str is a c-string pointer
-// Post-condition: Returns the required number of bytes to hold str
-size_t myStringLength(const char*str);
+// Function name: myStringCat
+// Pre-condition: destination and source are c-string pointers, destination has enough additional space to store source
+// Post-condition: Returns a pointer to the destination array, destination array contains source appended to the end
+char *myStringCat(char* destination, const char* source);
 
 // Function name: myStringCompare
 // Pre-condition: str1 and str2 are c-string pointers
@@ -38,16 +38,22 @@ int myStringCompare(const char* str1, const char* str2);
 // Post-condition: Returns a pointer to the destination array, destination array contains source string
 char *myStringCopy(char* destination, const char* source);
 
-// Function name: myStringCat
-// Pre-condition: destination and source are c-string pointers, destination has enough additional space to store source
-// Post-condition: Returns a pointer to the destination array, destination array contains source appended to the end
-char *myStringCat(char* destination, const char* source);
+// Function name: myStringLength
+// Pre-condition: str is a c-string pointer
+// Post-condition: Returns the required number of bytes to hold str
+size_t myStringLength(const char*str);
 
 //
 void printCarData(RentalCar* carsArray, const int* position);
 
 // 
 void readFile(RentalCar* carsArray, const char* source_file_name);
+
+// 
+void sortByPrice(RentalCar* carsArray, int* positionArray);
+
+//
+void swapCars(RentalCar destination, RentalCar source);
 
 int main(void)
 {
@@ -76,7 +82,7 @@ int main(void)
                 logCarData(carsArray, positionArray, destination_file_name);
                 break;
             case 4:
-            
+                sortByPrice(carsArray, positionArray);
                 break;
             case 5:
             
@@ -93,14 +99,15 @@ int main(void)
 
 void displayMenu()
 {
-    std::cout << "1. Read car data.\n";
-    std::cout << "2. Print car data.\n";
-    std::cout << "3. Save car data.\n";
-    std::cout << "4. Sort cars (by price).\n";
-    std::cout << "5. Compare rental prices.\n";
-    std::cout << "6. Calculate a car's rental price.\n";
-    std::cout << "7. Exit the program.\n";
-    std::cout << "Enter your selection: ";
+    std::cout << '\n'
+    << "1. Read car data.\n"
+    << "2. Print car data.\n"
+    << "3. Save car data.\n"
+    << "4. Sort cars (by price).\n"
+    << "5. Compare rental prices.\n"
+    << "6. Calculate a car's rental price.\n"
+    << "7. Exit the program.\n"
+    << "Enter your selection: ";
 
     return;
 }
@@ -121,6 +128,41 @@ void logCarData(RentalCar* carsArray, const int* position, const char* destinati
         << std::boolalpha
         << carsArray[i].available << "\n";
     }
+}
+
+int myStringCompare(const char* str1, const char* str2)
+{
+	for (int i = 0; (str1[i] != '\0') && (str2[i] != '\0'); i++)
+	{
+		int val1 = str1[i], val2 = str2[i];
+		(val1 >= 97)? val1 -= 32 : val1 -= 0;
+		(val2 >= 97)? val2 -= 32 : val1 -= 0;
+		if (val1 > val2){
+			return 1;
+		}else if (val1 < val2){
+			return -1;
+		}
+	}
+    return 0;
+}
+
+char* myStringCopy(char* destination, const char* source)
+{
+    int i = 0;
+    while (source[i] != '\0')
+    {
+        destination[i] = source[i];
+        i++;
+    }
+    destination[i] = '\0';
+}
+
+size_t myStringLength(const char* str)
+{
+    int len = 0;
+    for (; str[len] != '\0'; len++) continue;
+
+    return len;
 }
 
 void printCarData(RentalCar* carsArray, const int* position)
@@ -159,4 +201,31 @@ void readFile(RentalCar* carsArray, const char* source_file_name)
     }
     
     return;
+}
+
+void sortByPrice(RentalCar* carsArray, int* positionArray)
+{
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5 - i - 1; j++)
+        {
+            if (carsArray[i+1].price > carsArray[i].price)
+            {
+                int tempInt = positionArray[i+1];
+                positionArray[i+1] = positionArray[i];
+                positionArray[i] = tempInt;
+
+                RentalCar tempObj = carsArray[i+1];
+                carsArray[i+1] = carsArray[i];
+                carsArray[i] = tempObj;
+            }
+        }
+    }
+
+    return;
+}
+
+void swapCars(RentalCar destination, RentalCar source)
+{
+    destination.price = source.price;
 }
