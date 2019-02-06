@@ -26,20 +26,21 @@ size_t myStringLength(const char*str);
 //  i.e. their characters are equal one-by-one until a NULL-character '\0' is found in both strings and at the same position as well
 //  returns a value <= -1 if the first character that does not match has a lower value in str1 than in str2
 //  returns a value >= 1 if the first character that does not match has a higher value in str1 than in str2
-int myStringCompare(const char*str1, const char*str2);
+int myStringCompare(const char* str1, const char* str2);
 
 // Function name: myStringCopy
 // Pre-condition: destination and source are c-string pointers, destination has enough space to store
 // Post-condition: Returns a pointer to the destination array, destination array contains source string
-char *myStringCopy(char*destination, const char* source);
+char *myStringCopy(char* destination, const char* source);
 
 // Function name: myStringCat
 // Pre-condition: destination and source are c-string pointers, destination has enough additional space to store source
 // Post-condition: Returns a pointer to the destination array, destination array contains source appended to the end
-char *myStringCat(char*destination, const char* source);
+char *myStringCat(char* destination, const char* source);
 
 int main(void)
 {
+    RentalCar cars[5];
     char source_file_name[255], destination_file_name[255];
 
     std::cout << "Enter source file name: ";
