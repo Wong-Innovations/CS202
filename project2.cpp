@@ -21,7 +21,7 @@ struct RentalCar {
 void displayMenu();
 
 // Function name: logCarData
-// Pre-condition: carsArray is an array of RendalCar objetcts, positionArray is an array of integers coresponding to carsArray objects' original indexes, destination_file_name is a string.
+// Pre-condition: carsArray is an array of RendalCar objects, positionArray is an array of integers coresponding to carsArray objects' original indexes, destination_file_name is a string.
 // Post-condition: Saves carsArray to a file with name "destination_file_name"
 void logCarData(RentalCar* carsArray, const int* positionArray, const char* destination_file_name);
 
@@ -48,16 +48,29 @@ char *myStringCopy(char* destination, const char* source);
 // Post-condition: Returns the required number of bytes to hold str
 size_t myStringLength(const char*str);
 
-//
+// Function name: printCarData
+// Pre-condition: carsArray is an array of RendalCar objects, positionArray is an array of integers coresponding to carsArray objects' original indexes, num_of_days and rates, if provided are an array of total rental costs (floats) and an integer respectivly.
+// Post-condition: Car data is printed to the console
 void printCarData(RentalCar* carsArray, const int* positionArray, const float* rates, const int num_of_days);
 
-// 
+// Function name: readFile
+// Pre-condition: carsArray is an array of RendalCar objects, source_file_name is a valid string whose name corrisponds to a text file in the same directory.
+// Post-condition: carsArray is initialized with objects whose values are pulled from source_file_name.
 void readFile(RentalCar* carsArray, const char* source_file_name);
 
-// 
+// Function name: rentCar
+// Pre-condition: carsArray is an array of RendalCar objects, positionArray is an array of integers coresponding to carsArray objects' original indexes, bookingIndex is an int containing the index of the car the user wishes to rent, num_of_days is an int containing the specified number of days the user wishes to rent the car.
+// Post-condition: If the car they selected is available the availability gets set to false, otherwise an error is raised.
+void rentCar(RentalCar* carsArray, const int* positionArray, const int bookingIndex, const int num_of_days);
+
+// Function name: sortByPrice
+// Pre-condition: carsArray is an array of RendalCar objects, positionArray is an array of integers coresponding to carsArray objects' original indexes.
+// Post-condition: carsArray is sorted by assending price.
 void sortByPrice(RentalCar* carsArray, int* positionArray);
 
-//
+// Function name: swapCar
+// Pre-condition: a and b are pointers to RentalCar objects.
+// Post-condition: The address of a and b are swapped.
 void swapCars(RentalCar* a, RentalCar* b);
 
 int main(void)
@@ -73,6 +86,7 @@ int main(void)
 
         float rates[5];
         int num_of_days;
+        int bookingIndex;
         switch (selection)
         {
             case 1:
@@ -106,7 +120,16 @@ int main(void)
                 printCarData(carsArray, positionArray, rates, num_of_days);
                 break;
             case 6:
-            
+                sortByPrice(carsArray, positionArray);
+                printCarData(carsArray, positionArray, 0, 0);
+
+                std::cout << "Enter the index of, the available, car you wish to rent: ";
+                std::cin >> bookingIndex;
+
+                std::cout << "Number of days you wish to rent the car: ";
+                std::cin >> num_of_days;
+
+                rentCar(carsArray, positionArray, bookingIndex, num_of_days);
                 break;
             case 7: selection = 0;
         }
@@ -233,6 +256,30 @@ void readFile(RentalCar* carsArray, const char* source_file_name)
     }
     
     return;
+}
+
+void rentCar(RentalCar* carsArray, const int* positionArray, const int bookingIndex, const int num_of_days)
+{
+    for (int i = 0; i < 5; i++)
+    {
+        if (bookingIndex == positionArray[i])
+        {
+            if (carsArray[i].available == 1)
+            {
+                carsArray[i].available = 0;
+                return;
+            }else
+            {
+                std::cout << "Error: "
+                << carsArray[i].year << ' '
+                << carsArray[i].make << ' '
+                << carsArray[i].model << ' '
+                << "is not available.\n";
+                return;
+            }
+        }
+    }
+    
 }
 
 void sortByPrice(RentalCar* carsArray, int* positionArray)
