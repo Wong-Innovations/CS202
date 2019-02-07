@@ -8,17 +8,22 @@
 #include <fstream>
 
 struct RentalCar {
-    int year;
-    char make[10];
-    char model[10];
-    float price;
-    bool available;
+    int year = 0000;
+    char make[10] = "NO CAR";
+    char model[10] = "SELECTED";
+    float price = 0.00;
+    bool available = 0;
 };
 
-// 
+// Function name: displayMenu
+// Pre-condition: None
+// Post-condition: Prints the menu to the console
 void displayMenu();
 
-void logCarData(RentalCar* carsArray, const int* position, const char* destination_file_name);
+// Function name: logCarData
+// Pre-condition: carsArray is an array of RendalCar objetcts, positionArray is an array of integers coresponding to carsArray objects' original indexes, destination_file_name is a string.
+// Post-condition: Saves carsArray to a file with name "destination_file_name"
+void logCarData(RentalCar* carsArray, const int* positionArray, const char* destination_file_name);
 
 // Function name: myStringCat
 // Pre-condition: destination and source are c-string pointers, destination has enough additional space to store source
@@ -44,7 +49,7 @@ char *myStringCopy(char* destination, const char* source);
 size_t myStringLength(const char*str);
 
 //
-void printCarData(RentalCar* carsArray, const int* position);
+void printCarData(RentalCar* carsArray, const int* positionArray, const float* rates, const int num_of_days);
 
 // 
 void readFile(RentalCar* carsArray, const char* source_file_name);
@@ -66,6 +71,8 @@ int main(void)
         displayMenu();
         std::cin >> selection;
 
+        float rates[5];
+        int num_of_days;
         switch (selection)
         {
             case 1:
@@ -74,7 +81,7 @@ int main(void)
                 readFile(carsArray, source_file_name);
                 break;
             case 2:
-                printCarData(carsArray, positionArray);
+                printCarData(carsArray, positionArray, 0, 0);
                 break;
             case 3:
                 std::cout << "Destination filename: ";
@@ -85,7 +92,18 @@ int main(void)
                 sortByPrice(carsArray, positionArray);
                 break;
             case 5:
-            
+                std::cout << "Number of days you wish to rent a car: ";
+                std::cin >> num_of_days;
+
+                sortByPrice(carsArray, positionArray);
+
+                rates[0] = carsArray[0].price * num_of_days;
+                rates[1] = carsArray[1].price * num_of_days;
+                rates[2] = carsArray[2].price * num_of_days;
+                rates[3] = carsArray[3].price * num_of_days;
+                rates[4] = carsArray[4].price * num_of_days;
+
+                printCarData(carsArray, positionArray, rates, num_of_days);
                 break;
             case 6:
             
@@ -112,7 +130,7 @@ void displayMenu()
     return;
 }
 
-void logCarData(RentalCar* carsArray, const int* position, const char* destination_file_name)
+void logCarData(RentalCar* carsArray, const int* positionArray, const char* destination_file_name)
 {
     std::ofstream destination_file;
     destination_file.open(destination_file_name);
@@ -120,7 +138,7 @@ void logCarData(RentalCar* carsArray, const int* position, const char* destinati
     for(int i = 0; i < 5; i++)
     {
         destination_file
-        << '[' << position[i] << "] "
+        << '[' << positionArray[i] << "] "
         << carsArray[i].year << ' '
         << carsArray[i].make << ' '
         << carsArray[i].model << " , $"
@@ -162,21 +180,35 @@ size_t myStringLength(const char* str)
     int len = 0;
     for (; str[len] != '\0'; len++) continue;
 
-    return len;
+    return len * sizeof(char);
 }
 
-void printCarData(RentalCar* carsArray, const int* position)
+void printCarData(RentalCar* carsArray, const int* positionArray, const float* rates, const int num_of_days)
 {
     for(int i = 0; i < 5; i++)
     {
-        std::cout 
-        << '[' << position[i] << "] "
-        << carsArray[i].year << ' '
-        << carsArray[i].make << ' '
-        << carsArray[i].model << " , $"
-        << carsArray[i].price << " per day , Available: "
-        << std::boolalpha
-        << carsArray[i].available << "\n";
+        if (rates || num_of_days)
+        {
+            if (carsArray[i].available)
+            {
+                std::cout 
+                << '[' << i << "] "
+                << carsArray[i].year << ' '
+                << carsArray[i].make << ' '
+                << carsArray[i].model << " , Total Cost: $"
+                << rates[i] << "\n";
+            }
+        } else
+        {
+            std::cout 
+            << '[' << positionArray[i] << "] "
+            << carsArray[i].year << ' '
+            << carsArray[i].make << ' '
+            << carsArray[i].model << " , $"
+            << carsArray[i].price << " per day , Available: "
+            << std::boolalpha
+            << carsArray[i].available << "\n";
+        }
     }
 }
 
@@ -209,7 +241,7 @@ void sortByPrice(RentalCar* carsArray, int* positionArray)
     {
         for (int j = 0; j < 5 - i - 1; j++)
         {
-            if (carsArray[j+1].price > carsArray[j].price)
+            if (carsArray[j+1].price < carsArray[j].price)
             {
                 int tempInt = positionArray[j+1];
                 positionArray[j+1] = positionArray[j];
