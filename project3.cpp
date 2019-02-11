@@ -21,6 +21,8 @@ struct RentalAgency
 // Post-condition: Prints the menu to the console
 void displayMenu();
 
+void readFile(RentalAgency* agencies, const char* source_file_name);
+
 int main(void)
 {
     RentalAgency agencies[3];
@@ -84,11 +86,22 @@ void readFile(RentalAgency* agencies, const char* source_file_name)
             source_file >> agencies[i].zipcode;
             for (int j = 0; j < 5; j++)
             {
-                source_file >> agencies[i].inventory[j].year;
-                source_file >> agencies[i].inventory[j].make;
-                source_file >> agencies[i].inventory[j].model;
-                source_file >> agencies[i].inventory[j].price;
-                source_file >> agencies[i].inventory[j].available;
+                int temp_year;
+                char temp_make[10], temp_model[10];
+                float temp_price;
+                bool temp_available;
+
+                source_file >> temp_year;
+                source_file >> temp_make;
+                source_file >> temp_model;
+                source_file >> temp_price;
+                source_file >> temp_available;
+
+                agencies[i].inventory[j].setYear(temp_year);
+                agencies[i].inventory[j].setMake(temp_make);
+                agencies[i].inventory[j].setModel(temp_model);
+                agencies[i].inventory[j].setPrice(temp_price);
+                agencies[i].inventory[j].setAvailability(temp_available);
             }
         }
     }
