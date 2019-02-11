@@ -97,11 +97,13 @@ void readFile(RentalAgency* agencies, const char* source_file_name)
                 source_file >> temp_price;
                 source_file >> temp_available;
 
-                agencies[i].inventory[j].setYear(temp_year);
-                agencies[i].inventory[j].setMake(temp_make);
-                agencies[i].inventory[j].setModel(temp_model);
-                agencies[i].inventory[j].setPrice(temp_price);
-                agencies[i].inventory[j].setAvailability(temp_available);
+                agencies[i].inventory[j] = RentalCar(temp_year, temp_make, temp_model, temp_price, temp_available);
+
+                // agencies[i].inventory[j].RentalCar::setYear(temp_year);
+                // agencies[i].inventory[j].RentalCar::setMake(temp_make);
+                // agencies[i].inventory[j].RentalCar::setModel(temp_model);
+                // agencies[i].inventory[j].RentalCar::setPrice(temp_price);
+                // agencies[i].inventory[j].RentalCar::setAvailability(temp_available);
             }
         }
     }
