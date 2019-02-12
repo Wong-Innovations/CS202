@@ -10,7 +10,7 @@
 
 struct RentalAgency
 {
-    char name[];
+    char name[256];
     int zipcode;
     RentalCar inventory[5];
 };
@@ -20,6 +20,8 @@ struct RentalAgency
 // Pre-condition: None
 // Post-condition: Prints the menu to the console
 void displayMenu();
+
+void printAgencies(RentalAgency* agencies);
 
 void readFile(RentalAgency* agencies, const char* source_file_name);
 
@@ -40,9 +42,11 @@ int main(void)
             case 1:
                 std::cout << "Source filename: ";
                 std::cin >> source_file_name;
+                std::cout << '\n';
                 readFile(agencies, source_file_name);
                 break;
             case 2:
+                printAgencies(agencies);
                 break;
             case 3:
                 break;
@@ -58,7 +62,7 @@ int main(void)
 
 void displayMenu()
 {
-    std::cout << '\n'
+    std::cout
     << "1. Read car data.\n"
     << "2. Print car data.\n"
     << "3. Save car data.\n"
@@ -66,6 +70,28 @@ void displayMenu()
     << "5. Compare rental prices.\n"
     << "6. Exit the program.\n"
     << "Enter your selection: ";
+
+    return;
+}
+
+void printAgencies(RentalAgency* agencies)
+{
+    for(int i = 0; i < 3; i++)
+    {
+        std::cout << agencies[i].name
+        << ' ' << agencies[i].zipcode << '\n';
+
+        for(int j = 0; j < 5; j++)
+        {
+            std::cout << agencies[i].inventory[j].getYear() << ' '
+            << agencies[i].inventory[j].getMake() << ' '
+            << agencies[i].inventory[j].getModel() << " , $"
+            << agencies[i].inventory[j].getPrice()
+            << " per day , Available: " << std::boolalpha
+            << agencies[i].inventory[j].getAvailability() << "\n";
+        }
+    }
+    std::cout << '\n';
 
     return;
 }
@@ -99,11 +125,11 @@ void readFile(RentalAgency* agencies, const char* source_file_name)
 
                 agencies[i].inventory[j] = RentalCar(temp_year, temp_make, temp_model, temp_price, temp_available);
 
-                // agencies[i].inventory[j].RentalCar::setYear(temp_year);
-                // agencies[i].inventory[j].RentalCar::setMake(temp_make);
-                // agencies[i].inventory[j].RentalCar::setModel(temp_model);
-                // agencies[i].inventory[j].RentalCar::setPrice(temp_price);
-                // agencies[i].inventory[j].RentalCar::setAvailability(temp_available);
+                agencies[i].inventory[j].RentalCar::setYear(temp_year);
+                agencies[i].inventory[j].RentalCar::setMake(temp_make);
+                agencies[i].inventory[j].RentalCar::setModel(temp_model);
+                agencies[i].inventory[j].RentalCar::setPrice(temp_price);
+                agencies[i].inventory[j].RentalCar::setAvailability(temp_available);
             }
         }
     }
