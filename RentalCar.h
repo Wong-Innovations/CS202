@@ -24,6 +24,9 @@ public:
     float getPrice();
     bool  getAvailability();
 
+    // Other methods
+    float estimateCost(const int num_of_days);
+
 private:
     // Member Variables
     int   m_year;

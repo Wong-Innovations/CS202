@@ -82,3 +82,8 @@ bool RentalCar::getAvailability()
 {
     return m_available;
 }
+
+float RentalCar::estimateCost(const int num_of_days)
+{
+    return m_price * num_of_days;
+}

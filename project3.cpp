@@ -21,14 +21,18 @@ struct RentalAgency
 // Post-condition: Prints the menu to the console
 void displayMenu();
 
+void findMostExpensive(RentalAgency* agencies);
+
+void giveQuote(RentalAgency* agencies);
+
 void printAgencies(RentalAgency* agencies);
 
-void readFile(RentalAgency* agencies, const char* source_file_name);
+void readFile(RentalAgency* agencies);
 
 int main(void)
 {
     RentalAgency agencies[3];
-    char source_file_name[255], destination_file_name[255];
+    char destination_file_name[255];
     int selection;
 
     do {
@@ -40,17 +44,16 @@ int main(void)
         switch (selection)
         {
             case 1:
-                std::cout << "Source filename: ";
-                std::cin >> source_file_name;
-                std::cout << '\n';
-                readFile(agencies, source_file_name);
+                readFile(agencies);
                 break;
             case 2:
                 printAgencies(agencies);
                 break;
             case 3:
+                giveQuote(agencies);
                 break;
             case 4:
+                findMostExpensive(agencies);
                 break;
             case 5:
                 break;
@@ -64,14 +67,63 @@ void displayMenu()
 {
     std::cout
     << "1. Read car data.\n"
-    << "2. Print car data.\n"
-    << "3. Save car data.\n"
-    << "4. Sort cars (by price).\n"
+    << "2. Print rental agency data.\n"
+    << "3. Estimate rental cost.\n"
+    << "4. Find the most expensive car.\n"
     << "5. Compare rental prices.\n"
     << "6. Exit the program.\n"
     << "Enter your selection: ";
 
     return;
+}
+
+void findMostExpensive(RentalAgency* agencies)
+{
+    int mostExpensiveAgency = 0, mostExpensiveCar = 0;
+    float mostExpensivePrice = 0;
+
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 5; j++)
+        {
+            float next = agencies[i].inventory[j].getPrice();
+            if (next > mostExpensivePrice)
+            {
+                mostExpensivePrice = next;
+                mostExpensiveAgency = i;
+                mostExpensiveCar = j;
+            }
+        }
+    }
+    std::cout << "The most expensive car is the: "
+    << agencies[mostExpensiveAgency].inventory[mostExpensiveCar].getYear() << ' '
+    << agencies[mostExpensiveAgency].inventory[mostExpensiveCar].getMake() << ' '
+    << agencies[mostExpensiveAgency].inventory[mostExpensiveCar].getModel() << ' '
+    << "at the " << agencies[mostExpensiveAgency].name << " rental agency.\n\n";
+
+    return;
+}
+
+void giveQuote(RentalAgency* agencies)
+{
+    int agencySelection, carSelection, num_of_days;
+
+    std::cout << "Select an agency to rent from (0-2): ";
+    std::cin >> agencySelection;
+
+    std::cout << "Which car would you like to rent (0-4): ";
+    std::cin >> carSelection;
+
+    std::cout << "How many days would you like to rent that car for: ";
+    std::cin >> num_of_days;
+
+    std::cout << "The "
+    << agencies[agencySelection].inventory[carSelection].getYear() << ' '
+    << agencies[agencySelection].inventory[carSelection].getMake() << ' '
+    << agencies[agencySelection].inventory[carSelection].getModel() << ' '
+    << "will cost: $"
+    << agencies[agencySelection].inventory[carSelection].estimateCost(num_of_days)
+    << " for " << num_of_days << " days.\n\n";
 }
 
 void printAgencies(RentalAgency* agencies)
@@ -96,8 +148,12 @@ void printAgencies(RentalAgency* agencies)
     return;
 }
 
-void readFile(RentalAgency* agencies, const char* source_file_name)
+void readFile(RentalAgency* agencies)
 {
+    char source_file_name[255];
+    std::cout << "Source filename: ";
+    std::cin >> source_file_name;
+    std::cout << '\n';
     std::ifstream source_file;
     source_file.open(source_file_name);
     if(!source_file)
@@ -124,12 +180,6 @@ void readFile(RentalAgency* agencies, const char* source_file_name)
                 source_file >> temp_available;
 
                 agencies[i].inventory[j] = RentalCar(temp_year, temp_make, temp_model, temp_price, temp_available);
-
-                agencies[i].inventory[j].RentalCar::setYear(temp_year);
-                agencies[i].inventory[j].RentalCar::setMake(temp_make);
-                agencies[i].inventory[j].RentalCar::setModel(temp_model);
-                agencies[i].inventory[j].RentalCar::setPrice(temp_price);
-                agencies[i].inventory[j].RentalCar::setAvailability(temp_available);
             }
         }
     }
