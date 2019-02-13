@@ -11,10 +11,11 @@
 struct RentalAgency
 {
     char name[256];
-    int zipcode;
+    int zipcode[5];
     RentalCar inventory[5];
 };
 
+int myAtoi(char a);
 
 // Function name: displayMenu
 // Pre-condition: None
@@ -27,12 +28,12 @@ void giveQuote(RentalAgency* agencies);
 
 void printAgencies(RentalAgency* agencies);
 
-void readFile(RentalAgency* agencies);
+void readFileWithPointers(RentalAgency* agencies);
 
 int main(void)
 {
     RentalAgency agencies[3];
-    char destination_file_name[255];
+    char destination_file_name[256];
     int selection;
 
     do {
@@ -44,7 +45,7 @@ int main(void)
         switch (selection)
         {
             case 1:
-                readFile(agencies);
+                readFileWithPointers(agencies);
                 break;
             case 2:
                 printAgencies(agencies);
@@ -62,6 +63,11 @@ int main(void)
 
     return 0;
 }
+
+int myAtoi(char a) 
+{
+    return a - '0';
+} 
 
 void displayMenu()
 {
@@ -130,8 +136,14 @@ void printAgencies(RentalAgency* agencies)
 {
     for(int i = 0; i < 3; i++)
     {
-        std::cout << agencies[i].name
-        << ' ' << agencies[i].zipcode << '\n';
+        std::cout << agencies[i].name << ' ';
+
+        for(int j = 0; j < 5; j++)
+        {
+            std::cout << agencies[i].zipcode[j];
+        }
+        
+        std::cout << '\n';
 
         for(int j = 0; j < 5; j++)
         {
@@ -148,7 +160,7 @@ void printAgencies(RentalAgency* agencies)
     return;
 }
 
-void readFile(RentalAgency* agencies)
+void readFileWithPointers(RentalAgency* agencies)
 {
     char source_file_name[255];
     std::cout << "Source filename: ";
@@ -162,14 +174,29 @@ void readFile(RentalAgency* agencies)
     }
     else
     {
-        for (int i = 0; i < 3; i++)
-        {
-            source_file >> agencies[i].name;
-            source_file >> agencies[i].zipcode;
-            for (int j = 0; j < 5; j++)
+        RentalAgency *agenciesRef = agencies;
+
+        for(int i = 0; i < 3; i++)
+        {   
+            char temp_zip[6];
+
+            source_file >> agenciesRef->name;
+            source_file >> temp_zip;
+
+            int *zipRef = agenciesRef->zipcode;
+
+            for(char *temp_zipRef = temp_zip; *temp_zipRef != '\0'; temp_zipRef++)
+            {
+                *zipRef = myAtoi(*temp_zipRef);
+                zipRef++;
+            }
+
+            RentalCar *carsRef = agenciesRef->inventory;
+
+            for(int j = 0; j < 5; j++)
             {
                 int temp_year;
-                char temp_make[10], temp_model[10];
+                char temp_make[256], temp_model[256];
                 float temp_price;
                 bool temp_available;
 
@@ -179,10 +206,20 @@ void readFile(RentalAgency* agencies)
                 source_file >> temp_price;
                 source_file >> temp_available;
 
-                agencies[i].inventory[j] = RentalCar(temp_year, temp_make, temp_model, temp_price, temp_available);
+                carsRef->setYear(temp_year);
+                carsRef->setMake(temp_make);
+                carsRef->setModel(temp_model);
+                carsRef->setPrice(temp_price);
+                carsRef->setAvailability(temp_available);
+
+                carsRef++;
             }
+
+            agenciesRef++;
         }
+
     }
     
+
     return;
 }

@@ -30,8 +30,8 @@ public:
 private:
     // Member Variables
     int   m_year;
-    char  m_make[10];
-    char  m_model[10];
+    char  m_make[256];
+    char  m_model[256];
     float m_price;
     bool  m_available;
 };
