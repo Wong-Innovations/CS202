@@ -26,6 +26,7 @@ public:
 
     // Other methods
     float estimateCost(const int num_of_days);
+    void printCar();
 
 private:
     // Member Variables

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "RentalCar.h"
 
 void myStringCopy(char* des, char* src)
@@ -83,7 +84,18 @@ bool RentalCar::getAvailability()
     return m_available;
 }
 
+// Other Methods
 float RentalCar::estimateCost(const int num_of_days)
 {
     return m_price * num_of_days;
+}
+
+void RentalCar::printCar()
+{
+    std::cout << getYear() << ' '
+            << getMake() << ' '
+            << getModel() << " , $"
+            << getPrice()
+            << " per day , Available: " << std::boolalpha
+            << getAvailability() << "\n";
 }

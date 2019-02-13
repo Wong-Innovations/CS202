@@ -28,6 +28,8 @@ void giveQuote(RentalAgency* agencies);
 
 void printAgencies(RentalAgency* agencies);
 
+void printAgenciesWithPointers(RentalAgency* agencies);
+
 void readFileWithPointers(RentalAgency* agencies);
 
 int main(void)
@@ -48,7 +50,7 @@ int main(void)
                 readFileWithPointers(agencies);
                 break;
             case 2:
-                printAgencies(agencies);
+                printAgenciesWithPointers(agencies);
                 break;
             case 3:
                 giveQuote(agencies);
@@ -154,6 +156,37 @@ void printAgencies(RentalAgency* agencies)
             << " per day , Available: " << std::boolalpha
             << agencies[i].inventory[j].getAvailability() << "\n";
         }
+    }
+    std::cout << '\n';
+
+    return;
+}
+
+void printAgenciesWithPointers(RentalAgency* agencies)
+{
+    RentalAgency *agenciesRef = agencies;
+
+    for(int i = 0; i < 3; i++)
+    {
+        std::cout << agenciesRef->name << ' ';
+        int *zipRef = agenciesRef->zipcode;
+
+        for(int j = 0; j < 5; j++)
+        {
+            std::cout << *zipRef;
+            zipRef++;
+        }
+        
+        std::cout << '\n';
+
+        RentalCar *carsRef = agenciesRef->inventory;
+
+        for(int j = 0; j < 5; j++)
+        {
+            carsRef->printCar();
+            carsRef++;
+        }
+        agenciesRef++;
     }
     std::cout << '\n';
 
