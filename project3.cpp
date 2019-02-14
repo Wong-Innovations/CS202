@@ -15,6 +15,9 @@ struct RentalAgency
     RentalCar inventory[5];
 };
 
+// Function name: myAtoi
+// Pre-condition: a is the ascii representation of a single diget integer
+// Post-condition: returns the true int value
 int myAtoi(char a);
 
 // Function name: displayMenu
@@ -22,20 +25,34 @@ int myAtoi(char a);
 // Post-condition: Prints the menu to the console
 void displayMenu();
 
+// Function name: findMostExpensive
+// Pre-condition: agencies is an array of RentalAgency objects
+// Post-condition: Prints the most expensive car to the console
 void findMostExpensive(RentalAgency* agencies);
 
+// Function name: giveQuote
+// Pre-condition: agencies is an array of RentalAgency objects
+// Post-condition: quotes the user for the price of renting a given car for x days.
 void giveQuote(RentalAgency* agencies);
 
-void printAgencies(RentalAgency* agencies);
-
+// Function name: printAgenciesWithPointers
+// Pre-condition: agencies is an array of RentalAgency objects
+// Post-condition: Prints the agencies names, zipcodes, and inventory to the terminal
 void printAgenciesWithPointers(RentalAgency* agencies);
 
+// Function name: readFileWithPointers
+// Pre-condition: agencies is an array of RentalAgency objects
+// Post-condition: Reads in agency data from a user inputed file
 void readFileWithPointers(RentalAgency* agencies);
+
+// Function name: saveAvailableCars
+// Pre-condition: agencies is an array of RentalAgency objects
+// Post-condition: Saves the available cars to a user-named output file
+void saveAvailableCars(RentalAgency* agencies);
 
 int main(void)
 {
     RentalAgency agencies[3];
-    char destination_file_name[256];
     int selection;
 
     do {
@@ -59,6 +76,7 @@ int main(void)
                 findMostExpensive(agencies);
                 break;
             case 5:
+                saveAvailableCars(agencies);
                 break;
         }
     } while(selection != 6);
@@ -132,34 +150,6 @@ void giveQuote(RentalAgency* agencies)
     << "will cost: $"
     << agencies[agencySelection].inventory[carSelection].estimateCost(num_of_days)
     << " for " << num_of_days << " days.\n\n";
-}
-
-void printAgencies(RentalAgency* agencies)
-{
-    for(int i = 0; i < 3; i++)
-    {
-        std::cout << agencies[i].name << ' ';
-
-        for(int j = 0; j < 5; j++)
-        {
-            std::cout << agencies[i].zipcode[j];
-        }
-        
-        std::cout << '\n';
-
-        for(int j = 0; j < 5; j++)
-        {
-            std::cout << agencies[i].inventory[j].getYear() << ' '
-            << agencies[i].inventory[j].getMake() << ' '
-            << agencies[i].inventory[j].getModel() << " , $"
-            << agencies[i].inventory[j].getPrice()
-            << " per day , Available: " << std::boolalpha
-            << agencies[i].inventory[j].getAvailability() << "\n";
-        }
-    }
-    std::cout << '\n';
-
-    return;
 }
 
 void printAgenciesWithPointers(RentalAgency* agencies)
@@ -255,4 +245,36 @@ void readFileWithPointers(RentalAgency* agencies)
     
 
     return;
+}
+
+void saveAvailableCars(RentalAgency* agencies)
+{
+    char destination_file_name[256];
+
+    std::cout << "Enter destination file name: ";
+    std::cin >> destination_file_name;
+
+    std::ofstream destination_file;
+    destination_file.open(destination_file_name);
+
+    RentalAgency* agenciesRef = agencies;
+
+    for(int i = 0; i < 3; i++)
+    {
+        RentalCar* carsRef = agenciesRef->inventory;
+        for(int j = 0; j < 5; j++)
+        {
+            if (carsRef->getAvailability())
+            {
+                destination_file << carsRef->getYear() << ' '
+                << carsRef->getMake() << ' '
+                << carsRef->getModel() << " , $"
+                << carsRef->getPrice() << " per day , Available: "
+                << std::boolalpha << carsRef->getAvailability()
+                << '\n';
+            }
+            carsRef++;
+        }
+        agenciesRef++;
+    }
 }
