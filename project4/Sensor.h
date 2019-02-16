@@ -11,12 +11,12 @@ public:
     Sensor(char* type, float extracost);
 
     // Setters
-    void setType();
-    void setExtracost();
+    void setType(char* type);
+    void setExtracost(float extracost);
 
     // Getters
     char* getType();
-    float getExtraCost();
+    float getExtracost();
 
 private:
     char m_type[256];
