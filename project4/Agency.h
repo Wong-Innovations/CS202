@@ -10,7 +10,7 @@ public:
     Agency();
 
     // Paramatized Constructor
-    Agency(char* m_name, int m_zipcode, Car* m_inventory);
+    Agency(char* name, int zipcode, Car* inventory);
 
     // Setters
     void setName(char* name);
@@ -21,6 +21,9 @@ public:
     char* getName();
     int getZip();
     Car* getInventory();
+
+    // Overload Operators
+    void operator[] (const int);
 
 private:
     char m_name[256];

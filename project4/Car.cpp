@@ -32,3 +32,13 @@ Car::Car(int year, char *make, char *model, float price, bool available)
     Car::setPrice(price);
     Car::setAvailability(available);
 }
+
+// Copy Constructor
+Car::Car(const Car &carRef)
+{
+    Car::setYear(carRef.m_year);
+    Car::setMake(carRef.m_make);
+    Car::setModel(carRef.m_model);
+    Car::setPrice(price);
+    Car::setAvailability(carRef.m_available);
+}

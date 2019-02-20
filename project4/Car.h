@@ -12,6 +12,9 @@ public:
     // Paramatized Constructor
     Car(int year, char *make, char *model, float price, bool available);
 
+    // Copy Constructor
+    Car(const Car &carRef);
+
     // Setters
     void setYear(int year);
     void setMake(char *make);
