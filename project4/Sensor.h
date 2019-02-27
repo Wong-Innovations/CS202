@@ -18,6 +18,9 @@ public:
     char* getType();
     float getExtracost();
 
+    // Overload Operators
+    bool operator== (Sensor *sensorRef); // Checks if two sensors are equal
+
 private:
     char m_type[256];
     float m_extracost;

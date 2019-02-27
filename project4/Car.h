@@ -13,7 +13,7 @@ public:
     Car(int year, char *make, char *model, float price, bool available);
 
     // Copy Constructor
-    Car(const Car &carRef);
+    Car(const Car &carAddr);
 
     // Setters
     void setYear(int year);

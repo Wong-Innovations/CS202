@@ -34,3 +34,24 @@ float Sensor::getExtracost()
 {
     return m_extracost;
 }
+
+// Overload Operators
+bool Sensor::operator== (Sensor *sensorRef)
+{
+    bool result = 1;
+    char *sensor_one_type = this->getType();
+    char *sensor_two_type = sensorRef->getType();
+
+    while((*sensor_one_type != '\0') && (*sensor_two_type != '\0'))
+    {
+        if (*sensor_one_type != *sensor_two_type)
+        {
+            result = 0;
+            break;
+        }
+
+        sensor_one_type++, sensor_two_type++;
+    }
+    
+    return result;
+}
