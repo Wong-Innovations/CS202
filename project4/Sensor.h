@@ -12,7 +12,7 @@ public:
 
     // Setters
     void setType(char* type);
-    void setExtracost(float extracost);
+    void setExtracost();
 
     // Getters
     char* getType();

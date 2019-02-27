@@ -1,4 +1,5 @@
 #include "Sensor.h"
+#include "myStrings.h"
 
 // Default Constructor
 Sensor::Sensor()
@@ -19,9 +20,13 @@ void Sensor::setType(char* type)
     myStringCopy(m_type, type);
 }
 
-void Sensor::setExtracost(float extracost)
+void Sensor::setExtracost()
 {
-    m_extracost = extracost;
+    if (m_type)
+    {
+        /* code */
+    }
+    
 }
 
 // Getters

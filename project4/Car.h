@@ -13,12 +13,12 @@ public:
     Car(int year, char *make, char *model, float price, bool available);
 
     // Copy Constructor
-    Car(const Car &carAddr);
+    Car(const Car & other);
 
     // Setters
     void setYear(int year);
-    void setMake(char *make);
-    void setModel(char *model);
+    void setMake(const char *make);
+    void setModel(const char *model);
     void setBaseprice(float baseprice);
     void setAvailability(bool available);
     void setOwner(char* owner);
@@ -35,7 +35,7 @@ public:
 
     // Other methods
     void addLessee();
-    void addSensor();
+    void operator+ (char *type);
     float estimateCost(const int num_of_days);
     void print();
     void updatePrice(float price); // updates final price

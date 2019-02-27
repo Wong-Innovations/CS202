@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Agency.h"
 #include "Car.h"
+#include "myStrings.h"
 
 // Default Constructor
 Agency::Agency()

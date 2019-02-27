@@ -47,12 +47,10 @@ int main(void)
                 break;
             case 5:
                 break;
-            case 6:
-                break;
             default:
                 std::cout << "Invalid Option!\n";
         }
-    } while(selection != 6);
+    } while(selection != 5);
 
     return 0;
 }
@@ -120,7 +118,7 @@ void readFileWithPointers(Agency* agency)
             carsRef->setYear(temp_year);
             carsRef->setMake(temp_make);
             carsRef->setModel(temp_model);
-            carsRef->setPrice(temp_price);
+            carsRef->setBaseprice(temp_price);
             carsRef->setAvailability(temp_available);
 
             carsRef++;
