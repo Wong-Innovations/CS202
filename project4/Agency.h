@@ -23,7 +23,9 @@ public:
     Car* getInventory();
 
     // Overload Operators
-    void operator[] (const int);
+    Car& operator[] (const int);
+    void printAllData();
+    void readAllData(std::ifstream & infile);
 
 private:
     char m_name[256];

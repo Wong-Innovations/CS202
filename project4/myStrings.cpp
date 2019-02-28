@@ -52,3 +52,18 @@ size_t myStringLength(const char* str)
 
     return len * sizeof(char);
 }
+
+// Function name: myAtoi
+// Pre-condition: a is the ascii representation of a single diget integer
+// Post-condition: returns the true int value
+int myAtoi(char* str) 
+{
+    int val = 0;
+
+    for (char* strRef = str; *str != '\0'; strRef++)
+    {
+        val = val*10 + *str - '0';
+    }
+
+    return val;
+}

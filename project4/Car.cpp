@@ -66,42 +66,42 @@ void Car::setOwner(char* owner)
 
 
 // Getters
-int     Car::getYear(int year)
+int     Car::getYear()
 {
     return m_year;
 }
 
-char*   Car::getMake(char *make)
+char*   Car::getMake()
 {
     return m_make;
 }
 
-char*   Car::getModel(char *model)
+char*   Car::getModel()
 {
     return m_model;
 }
 
-Sensor* Car::getSensors(Sensor* sensors)
+Sensor* Car::getSensors()
 {
     return m_sensors;
 }
 
-float   Car::getBaseprice(float baseprice)
+float   Car::getBaseprice()
 {
     return m_baseprice;
 }
 
-float   Car::getFinalprice(float finalprice)
+float   Car::getFinalprice()
 {
     return m_finalprice;
 }
 
-bool    Car::getAvailability(bool available)
+bool    Car::getAvailability()
 {
     return m_available;
 }
 
-char*   Car::getOwner(char* owner)
+char*   Car::getOwner()
 {
     return m_owner;
 }
@@ -125,7 +125,12 @@ float Car::estimateCost(const int num_of_days)
 
 void Car::print()
 {
-
+    std::cout << getYear() << ' '
+            << getMake() << ' '
+            << getModel() << " , $"
+            << getBaseprice()
+            << " per day , Available: " << std::boolalpha
+            << getAvailability() << "\n";
 }
 
 void Car::updatePrice(float price)

@@ -24,14 +24,14 @@ public:
     void setOwner(char* owner);
 
     // Getters
-    int     getYear(int year);
-    char*   getMake(char *make);
-    char*   getModel(char *model);
-    Sensor* getSensors(Sensor* sensors);
-    float   getBaseprice(float baseprice);
-    float   getFinalprice(float finalprice);
-    bool    getAvailability(bool available);
-    char*   getOwner(char* owner);
+    int     getYear();
+    char*   getMake();
+    char*   getModel();
+    Sensor* getSensors();
+    float   getBaseprice();
+    float   getFinalprice();
+    bool    getAvailability();
+    char*   getOwner();
 
     // Other methods
     void addLessee();

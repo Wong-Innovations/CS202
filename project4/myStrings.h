@@ -26,4 +26,9 @@ char* myStringCopy(char* destination, const char* source);
 // Post-condition: Returns the required number of bytes to hold str
 size_t myStringLength(const char* str);
 
+// Function name: myAtoi
+// Pre-condition: a is the ascii representation of a single diget integer
+// Post-condition: returns the true int value
+int myAtoi(char* str);
+
 #endif
