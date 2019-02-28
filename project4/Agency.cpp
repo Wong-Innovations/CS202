@@ -113,16 +113,16 @@ void Agency::readAllData(std::ifstream & infile)
         infile >> temp_price;
 
         infile.get(trash);
-        while(trash != '}')
+        while(1)
         {
-            if ( (trash == '{') || (trash == ' ') )
+            if (trash == '{')
             {
                 temp_typeRef = temp_type;
                 do{
                     infile.get(trash);
                     *temp_typeRef = trash;
                     temp_typeRef++;
-                }while(trash != ' ');
+                }while((trash != '}') && (trash != ' '));
                 
                 *temp_typeRef = '\0';
 
@@ -132,6 +132,7 @@ void Agency::readAllData(std::ifstream & infile)
                 arrRef->setExtracost();
                 arrRef++;
             }
+            if (trash == '}') {break;}
             infile.get(trash);
         }
         
