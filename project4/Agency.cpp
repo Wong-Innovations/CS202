@@ -22,13 +22,11 @@ Agency::Agency(char* name, int zipcode, Car* inventory) :
 void Agency::setName(char* name)
 {
     myStringCopy(m_name, name);
-    std::cout << "Setting name:" << name << std::endl;
 }
 
 void Agency::setZip(int zipcode)
 {
     m_zipcode = zipcode;
-    std::cout << "Setting zip:" << zipcode << std::endl;
 }
 
 void Agency::setInventory(Car* inventory)
@@ -106,11 +104,11 @@ void Agency::readAllData(std::ifstream & infile)
         infile >> temp_price;
         infile >> temp_available;
 
-        m_inventory[j].setYear(temp_year);
-        m_inventory[j].setMake(temp_make);
-        m_inventory[j].setModel(temp_model);
-        m_inventory[j].setBaseprice(temp_price);
-        m_inventory[j].setAvailability(temp_available);
+        (*this)[j].setYear(temp_year);
+        (*this)[j].setMake(temp_make);
+        (*this)[j].setModel(temp_model);
+        (*this)[j].setBaseprice(temp_price);
+        (*this)[j].setAvailability(temp_available);
 
     }
 }

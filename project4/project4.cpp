@@ -16,7 +16,7 @@ void displayMenu();
 // Function name: readFileWithPointers
 // Pre-condition: agencies is an array of Agency objects
 // Post-condition: Reads in agency data from a user inputed file
-void readFileWithPointers(Agency agency);
+void readFileWithPointers(Agency *agency);
 
 int main(void)
 {
@@ -32,13 +32,13 @@ int main(void)
         switch (selection)
         {
             case 1:
-                readFileWithPointers(agency);
+                readFileWithPointers(&agency);
                 break;
             case 2:
                 agency.printAllData();
                 break;
             case 3:
-                
+
                 break;
             case 4:
                 break;
@@ -65,7 +65,7 @@ void displayMenu()
     return;
 }
 
-void readFileWithPointers(Agency agency)
+void readFileWithPointers(Agency *agency)
 {
     char source_file_name[255];
     std::cout << "Source filename: ";
@@ -79,7 +79,7 @@ void readFileWithPointers(Agency agency)
     }
     else
     {
-        agency.readAllData(source_file);
+        agency->readAllData(source_file);
     }
 
     return;

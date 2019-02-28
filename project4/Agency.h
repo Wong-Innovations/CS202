@@ -23,7 +23,7 @@ public:
     Car* getInventory();
 
     // Overload Operators
-    Car& operator[] (const int);
+    Car& operator[] (const int index);
     void printAllData();
     void readAllData(std::ifstream & infile);
 
