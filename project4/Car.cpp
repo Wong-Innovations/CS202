@@ -64,6 +64,16 @@ void Car::setOwner(char* owner)
     myStringCopy(m_owner, owner);
 }
 
+void Car::setSensors(Sensor *sensors)
+{
+    for(int i = 0; i < 3; i++)
+    {
+        m_sensors[i].setType(sensors->getType());
+        m_sensors[i].setExtracost();
+        sensors++;
+    }
+    
+}
 
 // Getters
 int     Car::getYear()
@@ -127,9 +137,28 @@ void Car::print()
 {
     std::cout << getYear() << ' '
             << getMake() << ' '
-            << getModel() << " , $"
-            << getBaseprice()
-            << " per day , Available: " << std::boolalpha
+            << getModel() << ' '
+            << "Baseprice: $"
+            << getBaseprice() << ' '
+            << "Finalprice: $"
+            << getFinalprice() << ' '
+            << "Sensors: { ";
+            Sensor * ptr = this->getSensors();
+            bool hasSensors = 0;
+            for(int i = 0; i < 3; i++)
+            {
+                if (myStringCompare( ptr->getType(), "none") != 0)
+                {
+                    std::cout << ptr->getType() << ' ';
+                    hasSensors = 1;
+                }
+                ptr++;
+            }
+            if (!hasSensors)
+            {
+                std::cout << "none ";
+            }
+            std::cout << "} , Available: " << std::boolalpha
             << getAvailability() << "\n";
 }
 

@@ -11,6 +11,11 @@ Agency::Agency()
     myStringCopy(m_name, "NO-NAME");
 }
 
+int Sensor::gps_cnt = 0;
+int Sensor::camera_cnt = 0;
+int Sensor::lidar_cnt = 0;
+int Sensor::radar_cnt = 0;
+
 // Paramatized Constructor
 Agency::Agency(char* name, int zipcode, Car* inventory) :
     m_zipcode(zipcode)
@@ -82,7 +87,7 @@ void Agency::printAllData()
 
 void Agency::readAllData(std::ifstream & infile)
 {
-    char temp_name[256];
+    char temp_name[256], trash;
     int temp_zip;
 
     infile >> temp_name;
@@ -94,21 +99,49 @@ void Agency::readAllData(std::ifstream & infile)
     for(int j = 0; j < 5; j++)
     {
         int temp_year;
-        char temp_make[256], temp_model[256];
+        char temp_make[256], temp_model[256], trash;
         float temp_price;
         bool temp_available;
+        char temp_type[256];
+        char* temp_typeRef;
+        Sensor arr[3];
+        Sensor *arrRef = arr;
 
         infile >> temp_year;
         infile >> temp_make;
         infile >> temp_model;
         infile >> temp_price;
+
+        infile.get(trash);
+        while(trash != '}')
+        {
+            if ( (trash == '{') || (trash == ' ') )
+            {
+                temp_typeRef = temp_type;
+                do{
+                    infile.get(trash);
+                    *temp_typeRef = trash;
+                    temp_typeRef++;
+                }while(trash != ' ');
+                
+                *temp_typeRef = '\0';
+
+                std::cout << temp_type << std::endl;
+
+                arrRef->setType(temp_type);
+                arrRef->setExtracost();
+                arrRef++;
+            }
+            infile.get(trash);
+        }
+        
         infile >> temp_available;
 
         (*this)[j].setYear(temp_year);
         (*this)[j].setMake(temp_make);
         (*this)[j].setModel(temp_model);
         (*this)[j].setBaseprice(temp_price);
+        (*this)[j].setSensors(arr);
         (*this)[j].setAvailability(temp_available);
-
     }
 }

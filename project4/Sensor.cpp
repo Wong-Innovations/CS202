@@ -4,29 +4,61 @@
 // Default Constructor
 Sensor::Sensor()
 {
-
+    setType("none");
+    setExtracost();
 }
 
 // Parametized Constructor
-Sensor::Sensor(char* type, float extracost)
+Sensor::Sensor(char* type)
 {
     myStringCopy(m_type, type);
-    m_extracost = extracost;
+    setExtracost();
 }
 
 // Setters
 void Sensor::setType(char* type)
 {
     myStringCopy(m_type, type);
+    if (myStringCompare(m_type, "gps") == 0)
+    {
+        gps_cnt++;
+    }
+    else if (myStringCompare(m_type, "camera") == 0)
+    {
+        camera_cnt++;
+    }
+    else if (myStringCompare(m_type, "lidar") == 0)
+    {
+        lidar_cnt++;
+    }
+    else if (myStringCompare(m_type, "radar") == 0)
+    {
+        radar_cnt++;
+    }
 }
 
 void Sensor::setExtracost()
 {
-    if (m_type)
+    if (myStringCompare(m_type, "gps") == 0)
     {
-        /* code */
+        m_extracost = 5.0;
     }
-    
+    else if (myStringCompare(m_type, "camera") == 0)
+    {
+        m_extracost = 10.0;
+    }
+    else if (myStringCompare(m_type, "lidar") == 0)
+    {
+        m_extracost = 15.0;
+    }
+    else if (myStringCompare(m_type, "radar") == 0)
+    {
+        m_extracost = 20.0;
+    }
+    else if (myStringCompare(m_type, "none") == 0)
+    {
+        m_extracost = 0.0;
+    }
 }
 
 // Getters

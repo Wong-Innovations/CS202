@@ -8,7 +8,7 @@ public:
     Sensor();
 
     // Parametized Constructor
-    Sensor(char* type, float extracost);
+    Sensor(char* type);
 
     // Setters
     void setType(char* type);

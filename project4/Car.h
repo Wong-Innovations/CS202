@@ -22,6 +22,7 @@ public:
     void setBaseprice(float baseprice);
     void setAvailability(bool available);
     void setOwner(char* owner);
+    void setSensors(Sensor *sensors);
 
     // Getters
     int     getYear();
