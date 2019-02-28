@@ -103,7 +103,6 @@ void Agency::readAllData(std::ifstream & infile)
         float temp_price;
         bool temp_available;
         char temp_type[256];
-        char* temp_typeRef;
         Sensor arr[3];
         Sensor *arrRef = arr;
 
@@ -112,11 +111,12 @@ void Agency::readAllData(std::ifstream & infile)
         infile >> temp_model;
         infile >> temp_price;
 
-        infile.get(trash);
         while(1)
         {
+            infile.get(trash);
             if (trash == '{')
             {
+                char* temp_typeRef;
                 temp_typeRef = temp_type;
                 do{
                     infile.get(trash);
@@ -133,7 +133,6 @@ void Agency::readAllData(std::ifstream & infile)
                 arrRef++;
             }
             if (trash == '}') {break;}
-            infile.get(trash);
         }
         
         infile >> temp_available;
