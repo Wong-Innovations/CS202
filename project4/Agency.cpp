@@ -102,9 +102,10 @@ void Agency::readAllData(std::ifstream & infile)
         char temp_make[256], temp_model[256], trash;
         float temp_price;
         bool temp_available;
-        char temp_type[256];
+        char temp_sensors[256], temp_type[256];
         Sensor arr[3];
         Sensor *arrRef = arr;
+        char *temp_sensorsRef = temp_sensors, *temp_typeRef = temp_type;
 
         infile >> temp_year;
         infile >> temp_make;
@@ -116,24 +117,36 @@ void Agency::readAllData(std::ifstream & infile)
             infile.get(trash);
             if (trash == '{')
             {
-                char* temp_typeRef;
-                temp_typeRef = temp_type;
-                do{
+                infile.get(trash);
+                while(trash != '}')
+                {
+                    *temp_sensorsRef = trash;
+                    temp_sensorsRef++;
                     infile.get(trash);
-                    *temp_typeRef = trash;
-                    temp_typeRef++;
-                }while((trash != '}') && (trash != ' '));
-                
-                *temp_typeRef = '\0';
-
-                std::cout << temp_type << std::endl;
-
-                arrRef->setType(temp_type);
-                arrRef->setExtracost();
-                arrRef++;
+                }
+                *temp_sensorsRef == '\0';
             }
-            if (trash == '}') {break;}
+            if (trash == '}'){break;}
         }
+
+        temp_sensorsRef = temp_sensors;
+        std::cout << temp_sensors << std::endl;
+
+        while(*temp_sensorsRef != '\0')
+        {
+            while((*temp_sensorsRef != ' ') && (*temp_sensorsRef != '\0'))
+            {
+                *temp_typeRef = *temp_sensorsRef;
+                temp_sensorsRef++, temp_typeRef++;
+            }
+            *temp_typeRef = '\0';
+            std::cout << temp_type << std::endl;
+            arrRef->setType(temp_type);
+            arrRef->setExtracost();
+            arrRef++;
+        }
+        
+        std::cout << temp_sensors << std::endl;
         
         infile >> temp_available;
 
