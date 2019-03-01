@@ -124,29 +124,28 @@ void Agency::readAllData(std::ifstream & infile)
                     temp_sensorsRef++;
                     infile.get(trash);
                 }
-                *temp_sensorsRef == '\0';
+                *temp_sensorsRef = '\0';
             }
             if (trash == '}'){break;}
         }
 
         temp_sensorsRef = temp_sensors;
-        std::cout << temp_sensors << std::endl;
 
         while(*temp_sensorsRef != '\0')
         {
-            while((*temp_sensorsRef != ' ') && (*temp_sensorsRef != '\0'))
+            *temp_typeRef = *temp_sensorsRef;
+            temp_sensorsRef++, temp_typeRef++;
+
+            if (*temp_sensorsRef == ' ')
             {
-                *temp_typeRef = *temp_sensorsRef;
-                temp_sensorsRef++, temp_typeRef++;
+                *temp_typeRef = '\0';
+                std::cout << temp_type << std::endl;
+                arrRef->setType(temp_type);
+                arrRef->setExtracost();
+                arrRef++;
+                temp_typeRef = temp_type;
             }
-            *temp_typeRef = '\0';
-            std::cout << temp_type << std::endl;
-            arrRef->setType(temp_type);
-            arrRef->setExtracost();
-            arrRef++;
         }
-        
-        std::cout << temp_sensors << std::endl;
         
         infile >> temp_available;
 
