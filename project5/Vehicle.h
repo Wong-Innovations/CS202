@@ -16,6 +16,9 @@ public:
     // Copy Constructor
     Vehicle(const Vehicle &obj);
 
+    // Deconstructor
+    ~Vehicle();
+
     // Setters
     void setLLA(const float *lla);
 
@@ -35,6 +38,7 @@ private:
     float m_lla[3];
     const int m_vin;
     static int s_idgen;
+    static int s_deleted_vins[256];
 };
 
 #endif
