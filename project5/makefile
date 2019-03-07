@@ -7,9 +7,8 @@ CXX_FLAGS = -Wall
 #Rule that defers make all to the TARGET rule
 all: $(TARGET)
 
-#Rule to compile a single object file
-%.o: %.cpp $(HEADERS)
-	$(CXX) $(CXX_FLAGS) -c $< -o $@
+proj5:
+			$(CXX) $(CXX_FLAGS) $(SRCS)
 
 clean:
 	-rm -f *.o

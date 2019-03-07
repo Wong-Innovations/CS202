@@ -12,7 +12,7 @@ public:
     Car();
     
     // Paramatized Constructor
-    Car(const char* plates, const int throttle);
+    Car(const char* plates, const int vin, const float* lla);
 
     // Copy Constructor
     Car(const Car &obj);
@@ -23,6 +23,7 @@ public:
     // Setters
     void setThrottle(const int throttle);
     void setPlates(const char *plates);
+    static const int getIdgen();
 
     // Getters
     const int getThrottle() const;
@@ -31,6 +32,7 @@ public:
     // Other Methods
     void move(const float *lla);
     void drive(const int throttle);
+    friend std::ostream & operator<<(std::ostream & os, const Car & car);
 
 private:
     // Member Variables

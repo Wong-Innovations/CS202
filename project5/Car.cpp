@@ -11,8 +11,8 @@ Car::Car():
 }
 
 // Paramatized Constructor
-Car::Car(const char* plates, const int throttle):
-    m_throttle(throttle)
+Car::Car(const char* plates, const int vin, const float* lla):
+    Vehicle(vin, lla)
 {
     this->setPlates(plates);
     std::cout << "Car #" << this->getVin() << ": Parametized-ctor" << std::endl;
@@ -22,7 +22,6 @@ Car::Car(const char* plates, const int throttle):
 Car::Car(const Car &obj):
     Vehicle(obj)
 {
-
     std::cout << "Car #" << this->getVin() << ": Copy-ctor" << std::endl;
 }
 
@@ -46,6 +45,7 @@ void Car::setPlates(const char *plates)
 // Getters
 const int Car::getThrottle() const { return m_throttle; }
 const char *Car::getPlates() const { return m_plates; }
+const int Car::getIdgen() { return Vehicle::getIdgen(); }
 
 // Other Methods
 void Car::move(const float *lla)
@@ -61,4 +61,19 @@ void Car::move(const float *lla)
 void Car::drive(const int throttle)
 {
     this->setThrottle(throttle);
+}
+
+std::ostream & operator<< (std::ostream & os, const Car & car)
+{
+    const float *lla = car.getLLA();
+    
+    os << "Car #"
+    << car.getVin() << " Plates:"
+    << car.getPlates() << ", Throttle: "
+    << car.getThrottle() << " @ ["
+    << *lla << ", "
+    << *++lla << ", "
+    << *++lla << ']';
+
+    return os;
 }
