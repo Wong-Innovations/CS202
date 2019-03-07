@@ -22,6 +22,7 @@ Car::Car(const char* plates, const int vin, const float* lla):
 Car::Car(const Car &obj):
     Vehicle(obj)
 {
+    setPlates(obj.getPlates());
     std::cout << "Car #" << this->getVin() << ": Copy-ctor" << std::endl;
 }
 
@@ -68,12 +69,14 @@ std::ostream & operator<< (std::ostream & os, const Car & car)
     const float *lla = car.getLLA();
     
     os << "Car #"
-    << car.getVin() << " Plates:"
+    << car.getVin() << " Plates: "
     << car.getPlates() << ", Throttle: "
     << car.getThrottle() << " @ ["
-    << *lla << ", "
-    << *++lla << ", "
-    << *++lla << ']';
+    << *lla << ", ";
+    ++lla;
+    os << *lla << ", ";
+    ++lla;
+    os << *lla << ']';
 
     return os;
 }

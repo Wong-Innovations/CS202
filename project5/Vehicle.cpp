@@ -24,7 +24,7 @@ Vehicle::Vehicle(const int vin, const float *lla):
 
 // Copy Constructor
 Vehicle::Vehicle(const Vehicle &obj):
-    m_vin(obj.m_vin)
+    m_vin(availibleVin(1))
 {
     setLLA(obj.m_lla);
     std::cout << "Vehicle #" << this->getVin() << ": Copy-ctor" << std::endl;
@@ -87,8 +87,8 @@ std::ostream & operator<< (std::ostream & os, const Vehicle & vehicle)
 {
     os << "Vehicle #"
     << vehicle.m_vin << " @ ["
-    << vehicle.m_lla[0] << ' '
-    << vehicle.m_lla[1] << ' '
+    << vehicle.m_lla[0] << ", "
+    << vehicle.m_lla[1] << ", "
     << vehicle.m_lla[2] << ']';
 
     return os;
