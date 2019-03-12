@@ -64,6 +64,14 @@ void Car::drive(const int throttle)
     this->setThrottle(throttle);
 }
 
+void Car::operator=(const Car &other)
+{
+    std::cout << "Car #" << this->getVin() << ": Assignment" << std::endl;
+    this->setLLA(other.getLLA());
+    this->setThrottle(other.getThrottle());
+    this->setPlates(other.getPlates());
+}
+
 std::ostream & operator<< (std::ostream & os, const Car & car)
 {
     const float *lla = car.getLLA();

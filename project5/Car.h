@@ -32,6 +32,7 @@ public:
     // Other Methods
     void move(const float *lla);
     void drive(const int throttle);
+    void operator=(const Car &other);
     friend std::ostream & operator<<(std::ostream & os, const Car & car);
 
 private:

@@ -21,6 +21,7 @@ public:
 
     // Setters
     void setLLA(const float *lla);
+    void addVin(const int vin);
 
     // Getters
     const int getVin() const;
@@ -30,7 +31,7 @@ public:
     // Other Methods
     static int availibleVin(const int vin);
     friend std::ostream & operator<<(std::ostream & os, const Vehicle & vehicle);
-    void operator=(const Vehicle other);
+    void operator=(const Vehicle &other);
     void move(const float *lla);
 
 private:

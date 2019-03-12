@@ -33,14 +33,7 @@ Vehicle::Vehicle(const Vehicle &obj):
 // Deconstructor
 Vehicle::~Vehicle()
 {
-    for(int i = 0; s_deleted_vins[i+1]; i++)
-    {
-        if (!s_deleted_vins[i])
-        {
-            s_deleted_vins[i] = this->getVin();
-        }
-    }
-    
+    addVin(this->getVin());
     std::cout << "Vehicle #" << this->getVin() << ": Dtor" << std::endl;
 }
 
@@ -50,6 +43,17 @@ void Vehicle::setLLA(const float *lla)
     m_lla[0] = lla[0];
     m_lla[1] = lla[1];
     m_lla[2] = lla[2];
+}
+
+void Vehicle::addVin(const int vin)
+{
+    for(int i = 0; i < 256; i++)
+    {
+        if (!s_deleted_vins[i]) {
+            s_deleted_vins[i] = vin;
+            break;
+        }
+    }
 }
 
 // Getters
@@ -94,8 +98,9 @@ std::ostream & operator<< (std::ostream & os, const Vehicle & vehicle)
     return os;
 }
 
-void Vehicle::operator= (const Vehicle other)
+void Vehicle::operator= (const Vehicle &other)
 {
+    std::cout << "Vehicle #" << this->getVin() << ": Assignment" << std::endl;
     this->setLLA(other.getLLA());
 }
 
