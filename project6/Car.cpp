@@ -45,9 +45,7 @@ void Car::Move(const float *lla)
     std::cout << "Car: DRIVE to destination, with throttle @ 75 " << std::endl;
 
     this->drive( 75 );
-    this->SetLLA(0, lla[0]);
-    this->SetLLA(1, lla[1]);
-    this->SetLLA(2, lla[2]);
+    this->SetLLA( lla );
 }
 
 void Car::drive(const int throttle)
@@ -58,17 +56,17 @@ void Car::drive(const int throttle)
 void Car::operator=(const Car &other)
 {
     std::cout << "Car: Assignment" << std::endl;
-    this->SetLLA(0, other.getLLA(0));
-    this->SetLLA(1, other.getLLA(1));
-    this->SetLLA(2, other.getLLA(2));
+    this->SetLLA(other.getLLA());
     this->setThrottle(other.getThrottle());
 }
 
 void Car::serialize(std::ostream& os) const
 {
+    const float *ptr = this->getLLA();
     std::cout << "Car: Throttle: " << this->getThrottle()
-    << " @ ["
-    << this->getLLA(0) << ", "
-    << this->getLLA(1) << ", "
-    << this->getLLA(2) << ']';
+    << " @ [" << *ptr << ", ";
+    ptr++;
+    os << *ptr << ", ";
+    ptr++;
+    os << *ptr << ']';
 }

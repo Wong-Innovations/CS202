@@ -20,10 +20,10 @@ public:
     virtual ~Vehicle();
 
     // Setters
-    void SetLLA(const int val, const float lla);
+    void SetLLA(const float *lla);
 
     // Getters
-    const float getLLA(const int index) const;
+    const float *getLLA() const;
 
     // Other Methods
     friend std::ostream & operator<<(std::ostream & os, const Vehicle & vehicle);

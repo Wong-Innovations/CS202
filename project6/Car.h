@@ -5,7 +5,7 @@
 #include <cstring>
 #include "Vehicle.h"
 
-class Car : Vehicle
+class Car : public Vehicle
 {
 public:
     // Default Constructor

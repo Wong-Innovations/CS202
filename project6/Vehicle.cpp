@@ -11,18 +11,14 @@ Vehicle::Vehicle()
 // Paramatized Constructor
 Vehicle::Vehicle(const float *lla)
 {
-    this->SetLLA(0, lla[0]);
-    this->SetLLA(1, lla[1]);
-    this->SetLLA(2, lla[2]);
+    this->SetLLA( lla );
     std::cout << "Vehicle: Parametrized-ctor" << std::endl;
 }
 
 // Copy Constructor
 Vehicle::Vehicle(const Vehicle &obj)
 {
-    this->SetLLA(0, obj.getLLA(0));
-    this->SetLLA(1, obj.getLLA(0));
-    this->SetLLA(2, obj.getLLA(0));
+    this->SetLLA( obj.getLLA() );
     std::cout << "Vehicle: Copy-ctor" << std::endl;
 }
 
@@ -33,13 +29,15 @@ Vehicle::~Vehicle()
 }
 
 // Setters
-void Vehicle::SetLLA(const int index, const float val)
+void Vehicle::SetLLA(const float *lla)
 {
-    m_lla[index] = val;
+    m_lla[0] = lla[0];
+    m_lla[1] = lla[1];
+    m_lla[2] = lla[2];
 }
 
 // Getters
-const float Vehicle::getLLA(const int index) const { return this->m_lla[index]; }
+const float *Vehicle::getLLA() const { return this->m_lla; }
 
 // Other Methods
 std::ostream & operator<< (std::ostream & os, const Vehicle & vehicle)
@@ -52,13 +50,16 @@ std::ostream & operator<< (std::ostream & os, const Vehicle & vehicle)
 void Vehicle::operator= (const Vehicle &other)
 {
     std::cout << "Vehicle: Assignment" << std::endl;
-    this->SetLLA(0, other.getLLA(0));
-    this->SetLLA(1, other.getLLA(1));
-    this->SetLLA(2, other.getLLA(2));
+    this->SetLLA(other.getLLA());
 }
 
 // Private methods
 void Vehicle::serialize(std::ostream& os) const
 {
-    os << "Vehicle @ [" << this->getLLA(0) << ", " << this->getLLA(1) << ", " << this->getLLA(2) << ']';
+    const float *ptr = this->getLLA();
+    os << "Vehicle @ [" << *ptr << ", ";
+    ptr++;
+    os << *ptr << ", ";
+    ptr++;
+    os << *ptr << ']';
 }
