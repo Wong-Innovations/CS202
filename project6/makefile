@@ -1,16 +1,15 @@
-TARGET = proj6
-HEADERS = Vehicle.h Car.h #List of all header files
-SRCS = proj6.cpp Vehicle.cpp Car.cpp #List of all source files
-CXX = g++ #compiler command to be used
+# Macro for compiler command
+CXX = g++
+# Macro for compiler flags
 CXX_FLAGS = -Wall
-PATH = ./dir/
-
-#Rule that defers make all to the TARGET rule
-all: $(TARGET)
-
-proj6:
-			$(CXX) $(CXX_FLAGS) $(SRCS)
-
+all: proj6
+proj6: proj6.o Car.o Vehicle.o
+	$(CXX) $(CXX_FLAGS) proj6.o Car.o Vehicle.o -o proj6
+proj6.o: proj6.cpp Car.h Vehicle.h
+	$(CXX) $(CXX_FLAGS) -c proj6.cpp -o proj6.o
+Car.o: Car.cpp Car.h Vehicle.h
+	$(CXX) $(CXX_FLAGS) -c Car.cpp -o Car.o
+Vehicle.o: Vehicle.cpp Vehicle.h
+	$(CXX) $(CXX_FLAGS) -c Vehicle.cpp -o Vehicle.o
 clean:
-	-rm -f *.o
-	-rm -f $(TARGET)
+	rm -rf *.o proj6
