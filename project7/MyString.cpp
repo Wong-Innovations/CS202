@@ -3,19 +3,20 @@
 #include "MyString.h"
 
 // Default C-tor
-MyString::MyString(): m_size(0), m_buffer(NULL) {}
+MyString::MyString() { buffer_allocate(0); }
 
 // Paramatized C-tor
 MyString::MyString(const char* buffer)
 {
+    size_t size;
     // Calculate size_t of buffer
-    size_t size = 1;
-    for (;buffer[size] != '\0'; size++);
+    for (int i=0; buffer[i] != 0; i++) size = i;
+    size++;
 
     // Attempt to allocate memory
     try
     {
-        this->buffer_allocate(size);
+        buffer_allocate(size);
         // If successful, copy buffer -> m_buffer
         for(size_t i = 0; i < size; i++)
             (*this)[i] = buffer[i];
@@ -23,7 +24,7 @@ MyString::MyString(const char* buffer)
     catch(const std::bad_alloc & e)
     {
         std::cerr << e.what() << '\n';
-        this->buffer_deallocate();
+        buffer_deallocate();
     }
 }
 
@@ -33,7 +34,7 @@ MyString::MyString(const MyString & other_myStr)
     // Attempt to allocate memory
     try
     {
-        this->buffer_allocate(other_myStr.size());
+        buffer_allocate(other_myStr.size());
         // If successful, copy other_myStr.buffer -> m_buffer
         for(size_t i = 0; i < other_myStr.size(); i++)
             (*this)[i] = other_myStr[i];
@@ -41,7 +42,7 @@ MyString::MyString(const MyString & other_myStr)
     catch(const std::bad_alloc & e)
     {
         std::cerr << e.what() << '\n';
-        this->buffer_deallocate();
+        buffer_deallocate();
     }
 }
 
@@ -89,7 +90,7 @@ MyString & MyString::operator= (const MyString & other_myStr)
 MyString MyString::operator+ (const MyString & other_myStr) const
 {
     // Calculate size required to store concatinated string
-    size_t new_size = other_myStr.size() + this->length();
+    size_t new_size = other_myStr.size() + size();
 
     // Temp storage
     char *concat_buffer;
@@ -101,10 +102,10 @@ MyString MyString::operator+ (const MyString & other_myStr) const
 
         // Copy m_buffer(s) -> concat_buffer
         size_t i = 0;
-        for (; i < this->length(); i++)
+        for (; i < size(); i++)
             concat_buffer[i] = (*this)[i];
         for (; i < new_size; i++)
-            concat_buffer[i] = other_myStr[i-this->length()];
+            concat_buffer[i] = other_myStr[i-size()];
     }
     catch(const std::bad_alloc & e)
     {
@@ -135,6 +136,7 @@ void MyString::buffer_allocate(size_t size)
 {
     try
     {
+        m_size = size;
         m_buffer = new char[size];
     }
     catch(const std::exception& e)
