@@ -5,3 +5,7 @@ dest.txt
 /project4/dest.txt
 /project4/HighTechAgency.txt
 /project4/makefile
+*.out
+*.o
+*.pdf
+*.docx
